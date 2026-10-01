@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lomba Kebersihan & Kreativitas Kelas SMP</title>
+<style>
+body{font-family:Arial,sans-serif;margin:20px;background:#f4f7fb;color:#222}
+.container{background:white;padding:25px;border-radius:12px;max-width:1200px;margin:auto}
+h1,h2{text-align:center;color:#1f4e79}
+table{width:100%;border-collapse:collapse;margin:15px 0}
+th,td{border:1px solid #ccc;padding:8px;text-align:left}
+th{background:#d9eaf7}
+input,select,textarea{width:100%;padding:6px;box-sizing:border-box}
+button{background:#1f4e79;color:white;border:none;padding:10px 18px;border-radius:6px;cursor:pointer}
+button:hover{background:#163a59}
+.card{padding:15px;background:#eef6ff;border-radius:10px;margin-top:15px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Form Penilaian Lomba Kebersihan & Kreativitas Kelas SMP</h1>
+
+<table>
+<tr><th>Nama Kelas</th><td><input id="kelas"></td><th>Nama Penilai</th><td><input id="penilai"></td></tr>
+<tr><th>Wali Kelas</th><td><input></td><th>Tanggal</th><td><input type="date"></td></tr>
+</table>
+
+<p><b>Skala Nilai:</b> 1 = Sangat Kurang, 2 = Kurang, 3 = Cukup, 4 = Baik, 5 = Sangat Baik</p>
+
+<div id="form"></div>
+
+<h2>Catatan Evaluasi</h2>
+<textarea rows="4" placeholder="Tuliskan kelebihan, kekurangan, dan rekomendasi perbaikan"></textarea>
+
+<br><br>
+<button onclick="hitung()">Hitung Nilai Akhir</button>
+
+<div class="card">
+<h2>Hasil Penilaian</h2>
+<p id="hasil">Belum dihitung</p>
+</div>
+
+</div>
+
+<script>
+const data=[
+["Kebersihan Ruang Kelas","Lantai kelas bersih dari debu, sampah kecil, noda, dan kotoran"],
+["Kebersihan Ruang Kelas","Area bawah meja dan kursi siswa bersih"],
+["Kebersihan Ruang Kelas","Meja dan kursi guru bersih"],
+["Kebersihan Ruang Kelas","Atap/plafon kelas bersih"],
+["Kebersihan Ruang Kelas","Jendela dan kaca bersih"],
+["Kebersihan Ruang Kelas","Papan tulis dan area depan kelas bersih"],
+["Kebersihan Ruang Kelas","Area Smart TV/perangkat elektronik bersih"],
+["Kerapihan & Penataan","Susunan meja dan kursi siswa tertata rapi"],
+["Kerapihan & Penataan","Meja dan kursi guru tertata baik"],
+["Kerapihan & Penataan","Tidak terdapat barang berserakan"],
+["Kerapihan & Penataan","Perlengkapan pembelajaran tersusun baik"],
+["Kerapihan & Penataan","Smart TV dan perlengkapannya tertata aman"],
+["Kerapihan & Penataan","Alat kebersihan (sapu, pel, ember, kemoceng) tersimpan rapi"],
+["Kerapihan & Penataan","Kondisi alat kebersihan bersih dan layak"],
+["Desain & Kreativitas","Konsep dekorasi kelas memiliki tema jelas"],
+["Desain & Kreativitas","Dinding kelas menarik dan edukatif"],
+["Desain & Kreativitas","Dekorasi merupakan kreativitas siswa"],
+["Desain & Kreativitas","Kelas nyaman untuk belajar"],
+["Desain & Kreativitas","Kreativitas tetap memperhatikan kebersihan"]
+];
+
+let html="<table><tr><th>No</th><th>Kategori</th><th>Indikator</th><th>Skor 1-5</th></tr>";
+data.forEach((x,i)=>{
+html+=`<tr><td>${i+1}</td><td>${x[0]}</td><td>${x[1]}</td><td><select class="nilai"><option value="0">Pilih</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td></tr>`;
+});
+html+="</table>";
+document.getElementById("form").innerHTML=html;
+
+function hitung(){
+let nilai=[...document.querySelectorAll(".nilai")].map(x=>Number(x.value)).filter(x=>x>0);
+if(nilai.length<data.length){alert("Mohon lengkapi semua nilai");return;}
+let total=nilai.reduce((a,b)=>a+b,0);
+let akhir=(total/(data.length*5)*100).toFixed(2);
+document.getElementById("hasil").innerHTML="Nilai Akhir Kelas: <b>"+akhir+"</b> / 100";
+}
+</script>
+</body>
+</html>
